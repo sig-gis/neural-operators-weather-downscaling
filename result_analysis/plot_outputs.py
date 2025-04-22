@@ -338,6 +338,6 @@ if __name__ == "__main__":
 #     --in_channels 2 \
 #     --out_channels 2 \
 #     --upsampling_factor 5 \
-#     --data_path '../datasets/era_to_wtk/32_-122_600x1600/' \
+#     --data_path '../datasets/era_to_wtk/region2_600x1600/' \
 #     --zero_shot \
 #     --zero_shot_upsampling_factor 15

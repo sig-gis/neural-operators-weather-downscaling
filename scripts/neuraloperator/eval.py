@@ -354,10 +354,10 @@ def main():
         args.upsampling_factor = args.zero_shot_upsampling_factor
     if args.data_name=="wtk":
         prev_path=args.data_path
-        args.data_path = prev_path+ "/32_-122_600x1600/" ## this is the path to the first region for ERA5->WTK experiments
+        args.data_path = prev_path+ "/region2_600x1600/" ## this is the path to the big region for ERA5->WTK experiments
         test1_loader = getTestData(args, std=std)
 
-        args.data_path = prev_path+"/27_-97_800x800/" ## this is the path to the second region for ERA5->WTK experiments
+        args.data_path = prev_path+"/region1_800x800/" ## this is the path to the small region for ERA5->WTK experiments
         test2_loader = getTestData(args, std=std)
     else:
         test1_loader = getTestData(args, std=std)

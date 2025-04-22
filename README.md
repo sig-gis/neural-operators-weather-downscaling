@@ -38,7 +38,28 @@ conda activate downscaling
 
 ## Usage
 
-### 1. Model Training
+### 1. Download the Dataset
+We work on two weather downscaling problems. Download the appropriate dataset(s) for the experiments:
+
+- **ERA5 (Low Resolution) → ERA5 (High Resolution)**  
+  We use the public dataset released by the **SuperBench** paper by *Pu Ren et al., 2023* :   
+  🔗 [ERA5-to-ERA5 dataset](https://portal.nersc.gov/project/dasrepo/superbench/climate.tar)
+
+- **ERA5 (Low Resolution) → WTK (High Resolution)**  
+  We have released the dataset used in these experiments here:  
+  🔗 [ERA5-to-WTK dataset](https://data.openei.org/submissions/6210)  
+  See the link for more details.
+
+After downloading, we structure the folder like this:
+```
+../datasets/
+├── era_to_wtk/
+│   ├── region1/
+│   └── region2/
+└── era5/
+```
+
+### 2. Model Training
 
 Baseline models are trained using the script located at:
 
@@ -76,7 +97,7 @@ The train.sh scripts contain hyperparameter details including references to conf
 - `src/baseline_models/` — for SRCNN, EDSR, ESRGAN, SwinIR  
 - `src/neuraloperators/neuralop/models/` — for FNO, DFNO, DUNO, DAFNO, DCNO
 
-### 2. Model Evaluation
+### 3. Model Evaluation
 
 Refer to `scripts/baseline/eval.sh` and `scripts/neuraloperator/eval.sh` for evaluating baseline and neural operator models, respectively. Each `eval.sh` script internally calls its corresponding Python script—`scripts/baseline/eval.py` or `scripts/neuraloperator/eval.py`.
 
@@ -90,7 +111,7 @@ sbatch scripts/baseline/eval.sh         # for baseline models
 sbatch scripts/neuraloperator/eval.sh   # for neural operator models
 ```
 
-### 3. Result Analysis
+### 4. Result Analysis
 
 The `result_analysis/` folder contains utilities for visualizing model outputs and energy spectra of the downscaled outputs.
 
