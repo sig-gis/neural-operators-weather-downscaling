@@ -1,0 +1,197 @@
+default: &DEFAULT
+
+  # General
+  # For computing compression
+  n_params_baseline: None
+  verbose: True
+  arch: "tfno2d" 
+
+  # Distributed computing
+  distributed:
+    use_distributed: False
+    wireup_info: 'mpi'
+    wireup_store: 'tcp'
+    model_parallel_size: 2
+    seed: 5544 
+
+  # FNO model (Tucker Tensorized FNO) (with the optimal hyperparameters shown below) 
+  tfno2d:
+    data_channels: 2 # 2 channels for ERA5->WTK and 3 for ERA5->ERA5 experiments
+    out_channels: 2 
+    n_modes_height: 16 # 8 modes for ERA5->ERA5 and 16 modes for ERA5->WTK experiments
+    n_modes_width: 16
+    hidden_channels: 32
+    lifting_channels: 256 
+    projection_channels: 256 
+    n_layers: 4
+    domain_padding: None 
+    domain_padding_mode: 'one-sided' 
+    fft_norm: 'forward'
+    norm: 'group_norm'
+    skip: 'linear'
+    implementation: 'factorized'
+    separable: 0
+    preactivation: 0
+    
+    use_mlp: 1
+    mlp:
+        expansion: 0.5
+        dropout: 0
+
+    factorization: None
+    rank: 1.0
+    fixed_rank_modes: None
+    dropout: 0.0
+    tensor_lasso_penalty: 0.0
+    joint_factorization: False
+    fno_block_precision: 'full' 
+    stabilizer: None 
+    local: True # True if including "local" layers from "Neural Operators with Localized Integral and Differential Kernels" (Liu-Schiaffini et al., 2024)
+    
+    checkpoint_path: "checkpoints_wtk/fno_16modes_with_locallayers/" #path to the saved model
+
+
+  # DFNO model (with the optimal hyperparameters shown below) 
+  dfno:
+    data_channels: 2 # 2 channels for ERA5->WTK and 3 for ERA5->ERA5 experiments
+    out_channels: 2
+    n_modes_height: 16 # 8 modes for ERA5->ERA5 and 16 modes for ERA5->WTK experiments
+    n_modes_width: 16  
+    hidden_channels: 32
+    lifting_channels: 256 
+    projection_channels: 256 
+    n_layers: 4
+    domain_padding: None 
+    domain_padding_mode: 'one-sided' 
+    fft_norm: 'forward'
+    norm: 'group_norm'
+    skip: 'linear'
+    implementation: 'factorized'
+    separable: 0
+    preactivation: 0
+    
+    use_mlp: 1
+    mlp:
+        expansion: 0.5
+        dropout: 0
+
+    factorization: None
+    rank: 1.0
+    fixed_rank_modes: None
+    dropout: 0.0
+    tensor_lasso_penalty: 0.0
+    joint_factorization: False
+    fno_block_precision: 'full' 
+    stabilizer: None 
+
+    num_rrdb: 12 # Number of RRDB blocks in the Downscaling(D)XNO models
+    local: False
+
+    checkpoint_path: "checkpoints_wtk/dfno_16modes/" #path to the saved model
+
+
+  # DUNO model (with the optimal hyperparameters shown below) 
+  duno:
+    data_channels: 2 # 2 channels for ERA5->WTK and 3 for ERA5->ERA5 experiments
+    out_channels: 2
+    hidden_channels: 64 
+    lifting_channels: 256 
+    projection_channels: 256
+    n_layers: 5 
+    uno_out_channels:  [64,64,64,64,64] 
+    uno_n_modes: [[5,5],[5,5],[5,5],[5,5],[5,5]]
+    uno_scalings: [[1.0,1.0],[0.5,0.5],[1,1],[1,1],[2,2]]
+    domain_padding: None 
+    domain_padding_mode: 'one-sided' 
+    fft_norm: 'forward'
+    norm: 'group_norm'
+    skip: 'linear'
+    implementation: 'factorized'
+    separable: 0
+    preactivation: 0
+    
+    use_mlp: 1
+    mlp:
+        expansion: 0.5
+        dropout: 0
+
+    factorization: None
+    rank: 1.0
+    fixed_rank_modes: None
+    joint_factorization: False
+    dropout: 0.0
+    tensor_lasso_penalty: 0.0
+    fno_block_precision: 'full' 
+    stabilizer: None 
+
+    num_rrdb: 12 
+    local: False
+
+    checkpoint_path: "checkpoints_wtk/duno/" #path to the saved model
+
+  # DCNO model (with the optimal hyperparameters shown below) 
+  dcno:
+    data_channels: 2 # 2 channels for ERA5->WTK and 3 for ERA5->ERA5 experiments
+    out_channels: 2
+    # The height, width of the interpolated output that goes as an input to the CNO model (see paper for framework details)      
+    in_size_h: 160 #160 for ERA5->WTK training; 128 for ERA5->ERA5 standard downscaling training and 64 for ERA5->ERA5 zero-shot downscaling training
+    in_size_w: 160 #160 for ERA5->WTK training; 128 for ERA5->ERA5 standard downscaling training and 64 for ERA5->ERA5 zero-shot downscaling training  
+    N_layers: 3
+
+    num_rrdb: 12 
+
+    checkpoint_path: "checkpoints_wtk/dcno/" #path to the saved model
+
+  # DAFNO model (with the optimal hyperparameters shown below) 
+  dafno:
+    patch_size: 8 # We choose patch-size as 4 for ERA5->ERA5 zero-shot experiments, 8 for every other experiment
+    data_channels: 2 # 2 channels for ERA5->WTK and 3 for ERA5->ERA5 experiments
+    out_channels: 2
+    embed_dim: 768 
+    depth: 12 
+    mlp_ratio: 4 
+    drop_rate: 0.
+    drop_path_rate: 0.
+    num_blocks: 8 
+
+    num_rrdb: 12
+
+    checkpoint_path: "checkpoints_wtk/dafno/" #path to the saved model
+
+  # Optimizer
+  opt:
+    n_epochs: 400 # All models are trained for 400 epochs
+    learning_rate: 5e-3  # 1e-4 for all the models except FNO, 5e-3 for FNO
+    training_loss: 'l2'
+    weight_decay: 1e-4
+    amp_autocast: False
+
+    scheduler_T_max: 500
+    scheduler_patience: 5 
+    scheduler: 'StepLR' # We use StepLR for all the models
+    step_size: 60 
+    gamma: 0.5
+
+
+  data:
+    positional_encoding: False 
+
+  checkpoint:
+    save_checkpoint: True
+
+  # Patching
+  patching:
+    levels: 0
+    padding: 0
+    stitching: False
+
+  # Weights and biases
+  # (create a wandb_api_key.txt file inside the config folder and put Weights and Biases API key there; don't add the file to the repo)
+  wandb:
+    log: True
+    group: '' 
+    project: "" # Use project name
+    entity: ""  # Use username
+    sweep: False
+    log_output: True
+    log_test_interval: 1
