@@ -20,7 +20,7 @@ def getTrainData(args, std):
     '''
     
     train_loader = get_data_loader(args, '/train', train=True, n_patches=args.n_patches, std=std)
-    val_loader = get_data_loader(args, '/valid', train=True, n_patches=args.n_patches, std=std)     
+    val_loader = get_data_loader(args, '/valid', train=True, n_patches=args.n_patches, std=std) # Note: "valid_1" and "valid_2" folders from SuperBench's ERA5 dataset are combined into a single "valid" folder for our work
 
     return train_loader, val_loader 
 
