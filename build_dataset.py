@@ -28,7 +28,7 @@ variable_list = [
         "2m_temperature",
         "surface_pressure",
         # "total_precipitation",
-        "geopotential",
+        # "geopotential",
         "total_column_water"
     ]
 file_format = 'netcdf'
