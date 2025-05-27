@@ -2,7 +2,7 @@ name: downscaling
 channels:
   - defaults
 dependencies:
-  - python=3.9
+  - python
   - pip
   - pip:
     - asciitree==0.3.3

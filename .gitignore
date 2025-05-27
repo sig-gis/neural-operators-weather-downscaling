@@ -21,6 +21,7 @@ train_result_bicubicLR/
 pre_train_checkpoint_bicubicLR/
 checkpoint_bicubicLR/
 checkpoints_bicubicLR/
+datasets/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

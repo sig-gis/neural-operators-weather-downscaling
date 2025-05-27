@@ -44,13 +44,13 @@ def train_no(train_loader, val_loader, mean, std, upsampling_factor, project_dir
     # Set up WandB logging
     wandb_args = None
     if config.wandb.log and is_logger:
-        wandb.login(key=get_wandb_api_key())
+        wandb.login(key=get_wandb_api_key(os.path.join(project_dir,'wandb_api_key.txt')))
     
         wandb_args =  dict(
             config=config,
             group=config.wandb.group,
             project=config.wandb.project,
-            entity=config.wandb.entity,
+            # entity=config.wandb.entity,
         )
         if config.wandb.sweep:
             for key in wandb.config.keys():
@@ -180,11 +180,13 @@ def main():
     parser.add_argument('--noise_ratio', type=float, default=0.0, help='noise ratio') #this isn't needed as we do bicubic downsampling (to derive LR from HR) in our ERA5 experiments
 
     
+    parser.add_argument('--project_dir',type=str,default='./')
+
     args = parser.parse_args()
     print(args)
 
     ## Get project directory path
-    project_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../")
+    project_dir = args.project_dir
 
     # Set random seed 
     torch.manual_seed(args.seed)

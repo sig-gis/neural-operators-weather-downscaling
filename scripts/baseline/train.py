@@ -110,11 +110,13 @@ def main():
     parser.add_argument('--optimizer_type', type=str, default='Adam', help='type of optimizer')
     parser.add_argument('--scheduler_type', type=str, default='ExponentialLR', help='type of scheduler')
 
+
+    parser.add_argument('--project_dir',type=str,default='./')
     args = parser.parse_args()
     print(args)
 
     ## Get project directory path
-    project_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../")
+    project_dir = args.project_dir
 
     # Set random seed 
     torch.manual_seed(args.seed)

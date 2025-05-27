@@ -24,9 +24,9 @@ srun python scripts/neuraloperator/train.py \
 # change upsampling factor to 8 and crop size to 128 for the standard downscaling ERA5->ERA5 experiments 
 
 # ERA5->WTK 
-srun python scripts/neuraloperator/train.py \
-    --upsampling_factor 5 \
-    --data_name wtk \
-    --data_path '../datasets/era_to_wtk' \
-    --crop_size 32 \
-    --batch_size 32 \
+# srun python scripts/neuraloperator/train.py \
+#     --upsampling_factor 5 \
+#     --data_name wtk \
+#     --data_path '../datasets/era_to_wtk' \
+#     --crop_size 32 \
+#     --batch_size 32 \

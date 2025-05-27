@@ -16,10 +16,10 @@ default: &DEFAULT
 
   # FNO model (Tucker Tensorized FNO) (with the optimal hyperparameters shown below) 
   tfno2d:
-    data_channels: 2 # 2 channels for ERA5->WTK and 3 for ERA5->ERA5 experiments
-    out_channels: 2 
-    n_modes_height: 16 # 8 modes for ERA5->ERA5 and 16 modes for ERA5->WTK experiments
-    n_modes_width: 16
+    data_channels: 3 # 2 channels for ERA5->WTK and 3 for ERA5->ERA5 experiments
+    out_channels: 3 
+    n_modes_height: 8 # 8 modes for ERA5->ERA5 and 16 modes for ERA5->WTK experiments
+    n_modes_width: 8
     hidden_channels: 32
     lifting_channels: 256 
     projection_channels: 256 
@@ -189,9 +189,9 @@ default: &DEFAULT
   # (create a wandb_api_key.txt file inside the config folder and put Weights and Biases API key there; don't add the file to the repo)
   wandb:
     log: True
-    group: '' 
-    project: "" # Use project name
-    entity: ""  # Use username
+    group: 'rdemilt-spatial-informatics-group-org' 
+    project: "climate-downscaling" # Use project name
+    entity: "rdemilt"  # Use username
     sweep: False
     log_output: True
     log_test_interval: 1
