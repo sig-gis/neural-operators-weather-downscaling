@@ -35,7 +35,7 @@ file_format = 'netcdf'
 download_format = 'zip'
 
 for year in years:
-    downloaded_file = f'ERA5-hourly-{year}.nc'
+    downloaded_file = f'mnt/eofm-benchmark/data/climatedownsaling/ERA5-hourly-{year}.nc'
 
     request = {
         'product_type':['reanalysis'],
