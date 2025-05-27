@@ -6,7 +6,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='training parameters')
 
-parser.add_argument('--startyear',type=str,required=False,default='2015')
+parser.add_argument('--startyear',type=str,required=False,default='2016')
 parser.add_argument('--endyear',type=str,required=False,default='2022')
 
 args = parser.parse_args()
