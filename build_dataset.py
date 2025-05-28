@@ -41,7 +41,7 @@ months = ['01', '02', '03',
                     '10', '11', '12']
 
 for year in years:
-    for month in month:
+    for month in months:
         downloaded_file = f'mnt/eofm-benchmark/data/climatedownscaling/ERA5-hourly-{year}-{month}.zip'
 
         request = {
