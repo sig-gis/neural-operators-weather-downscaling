@@ -27,12 +27,13 @@ variable_list = [
         "10m_v_component_of_wind",
         "2m_temperature",
         "surface_pressure",
-        # "total_precipitation",
+        "2m_dewpoint_temperature",
+        "total_precipitation",
         # "geopotential",
         "total_column_water"
     ]
 file_format = 'netcdf'
-download_format = 'zip'
+download_format = 'unarchived'
 
 for year in years:
     downloaded_file = f'mnt/eofm-benchmark/data/climatedownscaling/ERA5-hourly-{year}.nc'
