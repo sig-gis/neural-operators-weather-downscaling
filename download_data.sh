@@ -1,3 +1,4 @@
+conda init
 conda activate downscaling
 
-python build_datset.py --startyear 2015 --endyear 2016
+python build_datset.py --startyear 2016 --endyear 2017
