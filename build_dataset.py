@@ -33,10 +33,10 @@ variable_list = [
         "total_column_water"
     ]
 file_format = 'netcdf'
-download_format = 'unarchived'
+download_format = 'zip'
 
 for year in years:
-    downloaded_file = f'mnt/eofm-benchmark/data/climatedownscaling/ERA5-hourly-{year}.nc'
+    downloaded_file = f'mnt/eofm-benchmark/data/climatedownscaling/ERA5-hourly-{year}.zip'
 
     request = {
         'product_type':['reanalysis'],
