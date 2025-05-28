@@ -42,7 +42,7 @@ months = ['01', '02', '03',
 
 for year in years:
     for month in months:
-        downloaded_file = f'mnt/eofm-benchmark/data/climatedownscaling/ERA5-hourly-{year}-{month}.zip'
+        downloaded_file = f'~/mnt/eofm-benchmark/data/climatedownscaling/ERA5-hourly-{year}-{month}.zip'
 
         request = {
             'product_type':['reanalysis'],
