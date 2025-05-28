@@ -13,8 +13,8 @@ args = parser.parse_args()
 
 dataset = "reanalysis-era5-single-levels"
 
-start_year = args.startyear
-end_year = args.endyear
+start_year = int(args.startyear)
+end_year = int(args.endyear)
 
 # years = ['2020']
 years = [ str(start_year +i ) for i in range(end_year - start_year + 1)] 
