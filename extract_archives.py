@@ -21,8 +21,9 @@ years = [ str(start_year +i ) for i in range(end_year - start_year + 1)]
 
 
 def extract_zip(zip_path,destination_path):
+    fname = zip_path.split('/')[-1][:-4] + '.nc'
     with zipfile.ZipFile(zip_path,'r') as zip_ref:
-        zip_ref.extractall(destination_path)
+        zip_ref.extractall(os.path.join(destination_path,fname))
     print(f'Successfully extracted file: {zip_path}')
 
 
