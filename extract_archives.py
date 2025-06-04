@@ -7,8 +7,8 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--startyear',type=str,required=False,default='2016')
 parser.add_argument('--endyear',type=str,required=False,default='2017')
-parser.add_argument('--path',type=str,required=False,default='/home/rdemilt/mnt/eofm-benchmark/climatedownscaling')
-parser.add_argument('--dest',type=str,required=False,default='/home/rdemilt/mnt/eofm-benchmark/climatedownscaling/era5')
+parser.add_argument('--path',type=str,required=False,default='/home/rdemilt/mnt/eofm-benchmark/data/climatedownscaling')
+parser.add_argument('--dest',type=str,required=False,default='/home/rdemilt/mnt/eofm-benchmark/data/climatedownscaling/era5')
 
 args = parser.parse_args()
 
