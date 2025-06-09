@@ -15,8 +15,8 @@ args = parser.parse_args()
 path = args.path
 destination = args.dest
 
-start_year = args.startyear
-end_year = args.endyear
+start_year = int(args.startyear)
+end_year = int(args.endyear)
 years = [ str(start_year +i ) for i in range(end_year - start_year + 1)] 
 months = ['01', '02', '03',
                     '04', '05', '06',
