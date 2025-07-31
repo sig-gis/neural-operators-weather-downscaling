@@ -23,6 +23,19 @@ def get_data_info(data_name):
         mean = [mean_x,mean_y]
         std = [std_x, std_y]
 
+    
+    elif data_name == 'rtma':
+        # resol and n_fields never accessed anywhere..
+        resol = None # Ca
+        n_fields = 2
+        # Get the mean and std for the two channels for the RTMA data
+        
+        # TODO: pull for all RTMA CA
+        # full global stats of rtma ws and wd need to be run, would use rtma_compute_stats.py and rtma_pooled_stats.py
+        # ws, wd
+        mean = [8.63, 132.2] 
+        std = [4.5, 42.5]
+    
     else:
         raise ValueError('dataset {} not recognized'.format(data_name))
 
