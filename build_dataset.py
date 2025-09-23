@@ -7,7 +7,7 @@ import argparse
 parser = argparse.ArgumentParser(description='training parameters')
 
 parser.add_argument('--startyear',type=str,required=False,default='2016')
-parser.add_argument('--endyear',type=str,required=False,default='2022')
+parser.add_argument('--endyear',type=str,required=False,default='2017')
 
 args = parser.parse_args()
 
@@ -15,6 +15,13 @@ dataset = "reanalysis-era5-single-levels"
 
 start_year = int(args.startyear)
 end_year = int(args.endyear)
+
+area = [
+    42.2, 
+    -124.7, 
+    32.2, 
+    -113.9
+]
 
 # years = ['2020']
 years = [ str(start_year +i ) for i in range(end_year - start_year + 1)] 
@@ -53,7 +60,7 @@ months = ['01', '02', '03',
 
 for year in years:
     for month in months:
-        downloaded_file = f'/home/rdemilt/mnt/eofm-benchmark/data/climatedownscaling/test_ERA5-hourly-{year}-{month}.zip'
+        downloaded_file = f'datasets/era5_california/test_ERA5-hourly-{year}-{month}.zip'
 
         request = {
             'product_type':['reanalysis'],
@@ -62,6 +69,7 @@ for year in years:
             'month': [month],
             'day':days,
             'time': times,
+            'area':area,
             'data_format':file_format,
             'download_format':download_format
         }

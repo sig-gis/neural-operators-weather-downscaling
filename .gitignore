@@ -100,3 +100,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+RD_*
+*.npy
+output/

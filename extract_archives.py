@@ -5,10 +5,10 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--startyear',type=str,required=False,default='2016')
-parser.add_argument('--endyear',type=str,required=False,default='2017')
-parser.add_argument('--path',type=str,required=False,default='/home/rdemilt/mnt/delos-downscale/data/era5')
-parser.add_argument('--dest',type=str,required=False,default='/home/rdemilt/mnt/delos-downscale/data/era5')
+parser.add_argument('--startyear',type=str,required=False,default='2020')
+parser.add_argument('--endyear',type=str,required=False,default='2022')
+parser.add_argument('--path',type=str,required=False,default='./datasets/era5_california/')
+parser.add_argument('--dest',type=str,required=False,default='./datasets/era5_california/')
 
 args = parser.parse_args()
 

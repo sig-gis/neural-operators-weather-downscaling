@@ -12,10 +12,11 @@ from torch import nn
 from tqdm import tqdm
 from utils import *
 
-from src.baseline_models import EDSR, SRCNN, Bicubic
+from src.baseline_models import EDSR, SRCNN, Bicubic, SwinIR
+
 from src.baseline_models.ESRGAN import train as esrgan_train
 from src.baseline_models.ESRGAN.config import config as esrgan_config
-from src.data_loading import getTrainData
+from src.data_loading_extra import get_data_loader
 
 
 # train the model with the given parameters and save the model with the best validation error
@@ -88,6 +89,8 @@ def main():
     parser.add_argument('--model_path', type=str, default='../results/model_EDSR_era5_8_0.0001_bicubic_5544.pt', help='saved model')
     parser.add_argument('--pretrained', default=False, type=lambda x: (str(x).lower() == 'true'), help='load the pretrained model')
     parser.add_argument('--noise_ratio', type=float, default=0.0, help='noise ratio') #this isn't needed as we do bicubic downsampling (to derive LR from HR) in our ERA5 experiments
+    parser.add_argument('--max_samples',type=int, default=1000,help='maximum number of patches to use for trianing')
+    parser.add_argument('--max_val_samples',type=int, default=32,help='maximum number of patches to use for validation')
     
     # Arguments for model and training
     parser.add_argument('--model', type=str, default='EDSR', help='model')
@@ -123,10 +126,7 @@ def main():
     torch.cuda.manual_seed(args.seed)
 
     # Load data
-    resol, n_fields, mean, std = get_data_info(args.data_name) 
-    train_loader, val_loader= getTrainData(args, std=std)
-    print("mean is: ",mean)
-    print("std is: ",std)
+    train_loader, val_loader, mean, std = get_data_loader(args,args.data_name,True,args.n_patches)
 
     # Train the models
     # Some hyper-parameters for SwinIR
@@ -163,9 +163,9 @@ def main():
         model_list = {
                 'SRCNN': SRCNN(args.in_channels, args.upsampling_factor, mean, std),
                 'EDSR': EDSR(args.in_channels, args.hidden_channels, args.n_res_blocks, args.upsampling_factor, mean, std),
-                # 'SwinIR': SwinIR(upscale=args.upsampling_factor, in_chans=args.in_channels, img_size=(height, width),
-                #         window_size=window_size, img_range=1., depths=[6, 6, 6, 6, 6, 6],
-                #         embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6], mlp_ratio=2, upsampler='pixelshuffle', resi_connection='1conv',mean =mean,std=std),
+                'SwinIR': SwinIR(upscale=args.upsampling_factor, in_chans=args.in_channels, img_size=(height, width),
+                        window_size=window_size, img_range=1., depths=[6, 6, 6, 6, 6, 6],
+                        embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6], mlp_ratio=2, upsampler='pixelshuffle', resi_connection='1conv',mean =mean,std=std),
         }
 
         model = model_list[args.model].to(args.device)
