@@ -14,6 +14,7 @@ parser.add_argument('--endyear',type=str,required=False,default='2022')
 parser.add_argument('--path',type=str,required=False,default='/home/rdemilt/delos_downscale/datasets/era5_california/')
 parser.add_argument('--dest',type=str,required=False,default='/home/rdemilt/delos_downscale/datasets/era5_california/')
 
+args = parser.parse_args()
 # years = ['2016','2017','2018','2019','2020','2021','2022']
 # months  = [
 #     str(i).rjust(2,'0') for i in range(1,13,1)
@@ -29,8 +30,8 @@ weather_vars = ['sp', 't2m', 'tcw', 'u10', 'v10']
 
 for year in years:
     for month in months:
-        orig_path = f'datasets/era5_new/{year}/{month}/data_stream-oper_stepType-instant.nc'
-        path = f'datasets/era5_new/{year}/{month}/hourly_data.h5'
+        orig_path = args.path + f'{year}/{month}/data_stream-oper_stepType-instant.nc'
+        path = args.dest + f'{year}/{month}/hourly_data.h5'
 
         file = h5py.File(orig_path,mode='r')
         hrs = file['expver']
