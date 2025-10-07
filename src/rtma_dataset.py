@@ -1,6 +1,7 @@
 import glob
 import os
 import pickle
+from glob import glob
 
 import h5py
 import numpy as np
@@ -44,10 +45,10 @@ class RTMADataset(Dataset):
             self.bicubicDown_transform = transforms.Resize((int((self.img_shape_x-1)/upsampling_factor),int(self.img_shape_y/upsampling_factor)),Image.BICUBIC, antialias=True)  # subsampling the image (half size)
    
     def _get_file_stats(self):
-        cmd = f"gcloud storage ls {self.location}"
-        out = subprocess.run(cmd,shell=True,stderr=subprocess.PIPE,stdout=subprocess.PIPE).stdout.decode("utf-8")
-        files = out.splitlines()
-        var_files = [z for z in files if self.data_tag in z]
+
+        files = os.listdir(self.location)
+        
+        var_files = [os.path.join(self.location,z) for z in files if self.data_tag in z]
         
         self.files_paths = var_files # zarr stores
         self.files_paths.sort()
@@ -164,7 +165,7 @@ transform = torch.from_numpy
 mean = [8.63, 132.2] 
 std = [4.5, 42.5]
 
-rtma =RTMADataset(location="gs://delos-downscale/data/rtma/zarr", 
+rtma =RTMADataset(location="/home/rdemilt/mnt/delos-downscale/data/rtma/zarr", 
                   data_tag = "ws", 
                   train=True, 
                   transform=transform,
